@@ -46,10 +46,16 @@ class _Navigation extends StatelessWidget {
 class _Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Recuperar la instancia singletón (gestionda por Provider) referente al estado de la navegación de mi aplicación
+    final navigationProvider = Provider.of<NavigationProvider>(context);
+
     // PageView es un widget que se utiliza para mostrar una colección de páginas deslizables, generalmente horizontalmente. Cada página puede contener contenido diferente, como imágenes, texto, formularios u otros widgets personalizados. Se utiliza comúnmente para implementar patrones de navegación tipo "carrete" o "deslizar para cambiar"
     return PageView(
       // physics: const BouncingScrollPhysics(),
-      physics: const NeverScrollableScrollPhysics(),
+      physics:
+          const NeverScrollableScrollPhysics(), // El usuario no podrá hacer scroll para moverse entre las páginas de este PageView
+      // Asociar el controlador que gestionará este widget (el widget reaccionará a los cambios que se hagan desde el controlador)
+      controller: navigationProvider.pageController,
       children: [
         Container(
           //color: Colors.amber,
