@@ -9,7 +9,18 @@ class TabsSreen extends StatelessWidget {
         // PageView es un widget que se utiliza para mostrar una colección de páginas deslizables, generalmente horizontalmente. Cada página puede contener contenido diferente, como imágenes, texto, formularios u otros widgets personalizados. Se utiliza comúnmente para implementar patrones de navegación tipo "carrete" o "deslizar para cambiar"
         body: PageView(
       physics: const BouncingScrollPhysics(),
-      children: [Container(color: Colors.amber), Container(color: Colors.teal)],
+      children: [
+        Container(
+          //color: Colors.amber,
+          child: const Center(
+            child: Text('Página 1'),
+          ),
+        ),
+        Container(
+          color: Colors.teal,
+          child: Center(child: Text('Página #2')),
+        )
+      ],
     ));
   }
 }
