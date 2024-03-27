@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_flutter_app/services/news_service.dart';
+import 'package:news_flutter_app/widgets/list_news.dart';
 import 'package:provider/provider.dart';
 
 // Widget que representa una página asocaada al tab de navegación inferior de mi aplicación
@@ -11,8 +12,7 @@ class TabPrimaryScreen extends StatelessWidget {
     // Obtener la instancia de NewsService gestionada por el Provider
     final newsService = Provider.of<NewsService>(context);
 
-    return const Center(
-      child: Text('Página Tab 1'),
-    );
+    // Pasar el listado de noticias a ListNews para su renderización
+    return ListNews(news: newsService.headlines);
   }
 }
