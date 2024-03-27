@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_flutter_app/providers/navigation_provider.dart';
+import 'package:news_flutter_app/screens/tab_primary_screen.dart';
 import 'package:provider/provider.dart';
 
 class TabsSreen extends StatelessWidget {
@@ -57,12 +58,7 @@ class _Pages extends StatelessWidget {
       // Asociar el controlador que gestionará este widget (el widget reaccionará a los cambios que se hagan desde el controlador)
       controller: navigationProvider.pageController,
       children: [
-        Container(
-          //color: Colors.amber,
-          child: const Center(
-            child: Text('Página 1'),
-          ),
-        ),
+        TabPrimaryScreen(),
         Container(
           color: Colors.teal,
           child: Center(child: Text('Página #2')),

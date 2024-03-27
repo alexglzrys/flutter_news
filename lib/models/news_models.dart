@@ -6,23 +6,23 @@ import 'dart:convert';
 class NewsResponse {
   String? status;
   int? totalResults;
-  List<Article>? articles;
+  List<Article> articles;
 
   NewsResponse({
     this.status,
     this.totalResults,
-    this.articles,
+    required this.articles,
   });
 
   NewsResponse copyWith({
     String? status,
     int? totalResults,
-    List<Article>? articles,
+    required List<Article> articles,
   }) =>
       NewsResponse(
         status: status ?? this.status,
         totalResults: totalResults ?? this.totalResults,
-        articles: articles ?? this.articles,
+        articles: articles,
       );
 
   factory NewsResponse.fromRawJson(String str) =>
@@ -33,18 +33,14 @@ class NewsResponse {
   factory NewsResponse.fromJson(Map<String, dynamic> json) => NewsResponse(
         status: json["status"],
         totalResults: json["totalResults"],
-        articles: json["articles"] == null
-            ? []
-            : List<Article>.from(
-                json["articles"]!.map((x) => Article.fromJson(x))),
+        articles: List<Article>.from(
+            json["articles"]!.map((x) => Article.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "totalResults": totalResults,
-        "articles": articles == null
-            ? []
-            : List<dynamic>.from(articles!.map((x) => x.toJson())),
+        "articles": List<dynamic>.from(articles.map((x) => x.toJson())),
       };
 }
 
