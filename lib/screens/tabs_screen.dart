@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/providers/navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 class TabsSreen extends StatelessWidget {
   const TabsSreen({super.key});
@@ -16,6 +18,9 @@ class TabsSreen extends StatelessWidget {
 class _Navigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Recuperar la instancia singletón (gestionda por Provider) referente al estado de la navegación de mi aplicación
+    final navigationProvider = Provider.of<NavigationProvider>(context);
+
     // BottomNavigationBar es un widget que se utiliza comúnmente para proporcionar una navegación entre varias vistas o secciones de una aplicación, generalmente ubicado en la parte inferior de la pantalla. Cada elemento del BottomNavigationBar representa una opción de navegación y puede estar asociado con una página o una acción específica dentro de la aplicación.
     return BottomNavigationBar(
       items: const [
@@ -25,7 +30,14 @@ class _Navigation extends StatelessWidget {
         // Icono asociado al tab 2
         BottomNavigationBarItem(icon: Icon(Icons.public), label: 'Encabezados')
       ],
-      currentIndex: 0,
+      // El tab actualmente seleccionado
+      currentIndex: navigationProvider.currentPage,
+      onTap: (value) {
+        print('Tab seleccionado: $value');
+        // Establecer la nueva página actual seleccionada por el usuario
+        // Cualquier widget suscrito a NavigationProvider, Provider le notificará de los cambios, y en consecuencia se volverá a redibujar
+        navigationProvider.currentPage = value;
+      },
     );
   }
 }
