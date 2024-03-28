@@ -64,6 +64,9 @@ class _IconCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Recuperar la categoría actualmente seleccionada
+    final selectedCategory = Provider.of<NewsService>(context).selectedCategory;
+
     return GestureDetector(
       child: Container(
         width: 40,
@@ -72,11 +75,14 @@ class _IconCategory extends StatelessWidget {
             const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
         child: Icon(
           category.icon,
-          color: Colors.black38,
+          // Colocar un color diferente al icono para resaltar la categoría seleccionada
+          color:
+              selectedCategory == category.name ? Colors.blue : Colors.black38,
         ),
       ),
       onTap: () {
         // Establecer la neuva categoria seleccionada
+        // Soicitar una instancia gestionada por Provider dentro de un método o función, es obligatorio indicar que el listener sea en false
         final newsService = Provider.of<NewsService>(context, listen: false);
         newsService.selectedCategory = category.name;
         print(category.name);
