@@ -116,7 +116,9 @@ class CardImage extends StatelessWidget {
         child: urlImage != null
             ? FadeInImage(
                 placeholder: const AssetImage('assets/images/giphy.gif'),
-                image: NetworkImage(urlImage!))
+                image: NetworkImage(urlImage!),
+                fit: BoxFit.cover,
+              )
             : const Image(image: AssetImage('assets/images/no-image.png')));
   }
 }

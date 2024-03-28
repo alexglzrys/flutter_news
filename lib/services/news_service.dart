@@ -38,6 +38,8 @@ class NewsService with ChangeNotifier {
     for (var category in categories) {
       categoryArticles[category.name] = [];
     }
+    // Obtener el listado de noticias referente a la categoría por defecto (Bussines)
+    getArticlesByCategory(_selectedCategory);
   }
 
   // Getter para obtener la categoría actualmente seleccionada
@@ -46,10 +48,14 @@ class NewsService with ChangeNotifier {
   // Setter para establecer una nueva categoría seleccionda
   set selectedCategory(String newCategory) {
     _selectedCategory = newCategory;
-    // Recuperar el listado de noticias referentes a la categoría seleccionada
+    // Recuperar y almacenar el listado de noticias referentes a la categoría seleccionada en el mapa de noticas por categoría
     getArticlesByCategory(newCategory);
     notifyListeners();
   }
+
+  // Recuperar el listado de noticias referentes a la categoría seleccionada
+  List<Article> get getNewsBySelectedCategory =>
+      categoryArticles[_selectedCategory]!;
 
   getTopHeadlines() async {
     // Endpoint para obtener el listado de encabezados o noticias de primera plana en México

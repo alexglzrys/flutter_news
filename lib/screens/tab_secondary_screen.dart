@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_flutter_app/helpers/helpers.dart';
 import 'package:news_flutter_app/models/category_model.dart';
 import 'package:news_flutter_app/services/news_service.dart';
+import 'package:news_flutter_app/widgets/list_news.dart';
 import 'package:provider/provider.dart';
 
 class TabSecondaryScreen extends StatelessWidget {
@@ -9,13 +10,18 @@ class TabSecondaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener la instancia de nuestro servicio de noticias
+    final newsService = Provider.of<NewsService>(context);
+
     return Container(
-      child: const Column(
+      child: Column(
         children: [
           // Column y ListView.builder son widgets que ocupan todo el espacio disponible y tienen comportamientos de desplazamiento diferentes.
           // Cuando intentas colocar un ListView.builder directamente dentro de una Column, estás colocando dos widgets que intentan ocupar todo el espacio disponible al mismo tiempo. Esto genera un conflicto en el diseño y Flutter lanza un error para indicar que esta configuración es incompatible.
           // Para solucionar este problema, puedes envolver el ListView.builder dentro de un widget Expanded o Flexible para indicarle a Column que debe asignarle solo el espacio vertical necesario para mostrar todos sus hijos
-          Expanded(child: _ListCategories())
+          const _ListCategories(),
+          // Pasar al listado, las noticias referentes a la categoría actualmente seleccionada
+          Expanded(child: ListNews(news: newsService.getNewsBySelectedCategory))
         ],
       ),
     );
@@ -33,22 +39,28 @@ class _ListCategories extends StatelessWidget {
     // Obtener el listado de categorías situado en nuestro servicio de noticias
     final categories = Provider.of<NewsService>(context).categories;
 
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            _IconCategory(category: categories[index]),
-            const SizedBox(height: 5),
-            // Usar un helper personalziado para capitalizar textos
-            Text(capitalize(categories[index].name))
-          ]),
-        );
-      },
-      scrollDirection: Axis.horizontal,
-      itemCount: categories.length,
-      // Establece la física del desplazamiento. Esto significa que cuando el usuario desplaza el contenido y llega al límite del scroll, el ListView realizará un efecto de rebote.
-      physics: const BouncingScrollPhysics(),
+    // Envolver un ListView,builder dentro de un Container o un SizedBox es una forma elegante para no usar Expanded si este ListView.builder se encuentra como hijo de un Column
+    return SizedBox(
+      width: double.infinity,
+      height: 90,
+      // color: Colors.red,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+            child: Column(children: [
+              _IconCategory(category: categories[index]),
+              const SizedBox(height: 5),
+              // Usar un helper personalziado para capitalizar textos
+              Text(capitalize(categories[index].name))
+            ]),
+          );
+        },
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        // Establece la física del desplazamiento. Esto significa que cuando el usuario desplaza el contenido y llega al límite del scroll, el ListView realizará un efecto de rebote.
+        physics: const BouncingScrollPhysics(),
+      ),
     );
   }
 }
