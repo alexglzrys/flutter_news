@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/helpers/helpers.dart';
+import 'package:news_flutter_app/models/category_model.dart';
 import 'package:news_flutter_app/services/news_service.dart';
 import 'package:provider/provider.dart';
 
@@ -36,9 +38,10 @@ class _ListCategories extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
-            Icon(categories[index].icon),
+            _IconCategory(category: categories[index]),
             const SizedBox(height: 5),
-            Text(categories[index].name)
+            // Usar un helper personalziado para capitalizar textos
+            Text(capitalize(categories[index].name))
           ]),
         );
       },
@@ -46,6 +49,35 @@ class _ListCategories extends StatelessWidget {
       itemCount: categories.length,
       // Establece la física del desplazamiento. Esto significa que cuando el usuario desplaza el contenido y llega al límite del scroll, el ListView realizará un efecto de rebote.
       physics: const BouncingScrollPhysics(),
+    );
+  }
+}
+
+// Widget que personaliza la apariencia del icono de categoría
+class _IconCategory extends StatelessWidget {
+  const _IconCategory({
+    super.key,
+    required this.category,
+  });
+
+  final Category category;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration:
+            const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+        child: Icon(
+          category.icon,
+          color: Colors.black38,
+        ),
+      ),
+      onTap: () {
+        print(category.name);
+      },
     );
   }
 }
