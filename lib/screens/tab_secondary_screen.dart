@@ -76,6 +76,9 @@ class _IconCategory extends StatelessWidget {
         ),
       ),
       onTap: () {
+        // Establecer la neuva categoria seleccionada
+        final newsService = Provider.of<NewsService>(context, listen: false);
+        newsService.selectedCategory = category.name;
         print(category.name);
       },
     );

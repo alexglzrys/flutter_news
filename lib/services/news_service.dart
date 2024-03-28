@@ -26,8 +26,29 @@ class NewsService with ChangeNotifier {
     Category(FontAwesomeIcons.memory, 'technology'),
   ];
 
+  // Categoría seleccionada por defecto
+  String _selectedCategory = 'business';
+
+  // Mapa que contiene una seria de categorías con su respectivo listado de noticias
+  Map<String, List<Article>> categoryArticles = {};
+
   NewsService() {
     getTopHeadlines();
+    // Inicializar el mapa de categorías, al iniciar la aplicación, cada categoría contiene una lista vacia
+    for (var category in categories) {
+      categoryArticles[category.name] = [];
+    }
+  }
+
+  // Getter para obtener la categoría actualmente seleccionada
+  String get selectedCategory => _selectedCategory;
+
+  // Setter para establecer una nueva categoría seleccionda
+  set selectedCategory(String newCategory) {
+    _selectedCategory = newCategory;
+    // Recuperar el listado de noticias referentes a la categoría seleccionada
+    getArticlesByCategory(newCategory);
+    notifyListeners();
   }
 
   getTopHeadlines() async {
@@ -42,5 +63,25 @@ class NewsService with ChangeNotifier {
     notifyListeners();
 
     print('Cargando Top Headlines....');
+  }
+
+  getArticlesByCategory(String category) async {
+    // Simulación de caché
+    // Si la categoría ya fue solicitada, no se requiere volver a cargar sus respectivas noticias
+    if (categoryArticles[category]!.isNotEmpty) {
+      return categoryArticles[category];
+    }
+
+    // Endpoint para obtener el listado de encabezados o noticias de primera plana en México
+    final url =
+        '$_endPoint/top-headlines?apiKey=$_apiKey&country=us&category=$category';
+    final response = await http.get(Uri.parse(url));
+    // Convertir la respuesta JSON a la representación del modelo de tipo NewsResponse
+    final newsResponse = NewsResponse.fromRawJson(response.body);
+    // agregar el listado de noticias a su categoria correspondiente en el mapa
+    categoryArticles[category]!.addAll(newsResponse.articles);
+
+    // Notificar a todos los subscritores de este servicio que han llegado nuevas noticias
+    notifyListeners();
   }
 }
