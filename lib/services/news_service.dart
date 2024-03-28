@@ -19,7 +19,7 @@ class NewsService with ChangeNotifier {
 
   getTopHeadlines() async {
     // Endpoint para obtener el listado de encabezados o noticias de primera plana en México
-    final url = '$_endPoint/top-headlines?apiKey=$_apiKey&country=mx';
+    final url = '$_endPoint/top-headlines?apiKey=$_apiKey&country=us';
     final response = await http.get(Uri.parse(url));
     // Convertir la respuesta JSON a la representación del modelo de tipo NewsResponse
     final newsResponse = NewsResponse.fromRawJson(response.body);
