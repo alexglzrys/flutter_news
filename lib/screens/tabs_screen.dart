@@ -9,9 +9,11 @@ class TabsSreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _Pages(),
-      bottomNavigationBar: _Navigation(),
+    return SafeArea(
+      child: Scaffold(
+        body: _Pages(),
+        bottomNavigationBar: _Navigation(),
+      ),
     );
   }
 }

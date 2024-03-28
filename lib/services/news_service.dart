@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:news_flutter_app/models/news_models.dart';
+import 'package:news_flutter_app/models/category_model.dart';
 
 // Servicio que realiza diferentes peticiones HTTP al endpoint de News API
 
@@ -12,6 +14,17 @@ class NewsService with ChangeNotifier {
 
   // Listado de encabezados o noticias de primer plana
   List<Article> headlines = [];
+
+  // Listado de categorias
+  List<Category> categories = [
+    Category(FontAwesomeIcons.building, 'business'),
+    Category(FontAwesomeIcons.tv, 'entertainment'),
+    Category(FontAwesomeIcons.addressCard, 'general'),
+    Category(FontAwesomeIcons.headSideVirus, 'health'),
+    Category(FontAwesomeIcons.vials, 'science'),
+    Category(FontAwesomeIcons.volleyball, 'sports'),
+    Category(FontAwesomeIcons.memory, 'technology'),
+  ];
 
   NewsService() {
     getTopHeadlines();
