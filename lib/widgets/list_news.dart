@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_flutter_app/models/news_models.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Widget para mostrar el listado de noticias de primera plana
 class ListNews extends StatelessWidget {
@@ -48,7 +49,8 @@ class NewsCard extends StatelessWidget {
           description: news.description,
         ),
         const SizedBox(height: 16),
-        const CardButtons(),
+        // Pasar la url de la noticia para más información
+        CardButtons(url: news.url),
       ]),
     );
   }
@@ -56,7 +58,8 @@ class NewsCard extends StatelessWidget {
 
 // Widget que representa los botones de acción de la noticia
 class CardButtons extends StatelessWidget {
-  const CardButtons({super.key});
+  const CardButtons({super.key, this.url});
+  final String? url;
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +75,19 @@ class CardButtons extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: const Icon(Icons.star_border),
         ),
-        const SizedBox(width: 10),
-        RawMaterialButton(
-          onPressed: () {},
-          fillColor: Colors.blue,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: const Icon(Icons.more),
-        )
+        // Solo mostrar este botón si la noticia tiene asociada una url para visitarla en el sitio Web con un navegador
+        if (url != null) ...[
+          const SizedBox(width: 10),
+          RawMaterialButton(
+            onPressed: () async {
+              await launchUrl(Uri.parse(url!), mode: LaunchMode.inAppWebView);
+            },
+            fillColor: Colors.blue,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.more),
+          )
+        ]
       ],
     );
   }

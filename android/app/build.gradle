@@ -24,7 +24,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.news_flutter_app"
-    compileSdkVersion flutter.compileSdkVersion
+    // compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34 // Necesario para el plugin url_launcehr
     ndkVersion flutter.ndkVersion
 
     compileOptions {

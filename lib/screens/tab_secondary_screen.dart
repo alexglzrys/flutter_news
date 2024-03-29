@@ -21,7 +21,11 @@ class TabSecondaryScreen extends StatelessWidget {
           // Para solucionar este problema, puedes envolver el ListView.builder dentro de un widget Expanded o Flexible para indicarle a Column que debe asignarle solo el espacio vertical necesario para mostrar todos sus hijos
           const _ListCategories(),
           // Pasar al listado, las noticias referentes a la categoría actualmente seleccionada
-          Expanded(child: ListNews(news: newsService.getNewsBySelectedCategory))
+          Expanded(
+              // Mostrar un indicador de progreso si las noticias referentes a la categoría seleccionada aun no estan listas
+              child: newsService.getNewsBySelectedCategory.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListNews(news: newsService.getNewsBySelectedCategory))
         ],
       ),
     );
